@@ -1,0 +1,100 @@
+
+
+#include <Wire.h>
+#include "rgb_lcd.h"
+
+rgb_lcd lcd;
+
+String cat[] = {"Welcome", " to", " Robo", " Cat!"};
+String button[] = {"Click", " a", " switch", " to", " start!"};
+String catNoises[] = {"meoww", "purrr", "meowwwww", "memeowow", "ruff ruff?"};
+int rgbColours[3] = {};
+int counter = 0;
+
+void setup()
+{
+    // set up the LCD's number of columns and rows:
+    lcd.begin(16, 2);
+}
+
+void loop()
+{
+
+  if (counter < 5){
+    welcome();
+    instructions();
+  //blink();
+    counter++;
+  }else{
+    meow();
+    
+  }
+
+  lcd.noAutoscroll();
+  lcd.clear();
+
+  
+    // set the cursor to (0,0):
+    
+    // print from 0 to 9:
+    
+}
+
+void welcome(){
+  lcd.setCursor(0, 0);
+    //instructions();
+    // print from 0 to 9:
+    for (int index = 0; index < (sizeof(cat)/sizeof(*cat)); index++)
+    {
+        lcd.print(cat[index]);
+        delay(500);
+    }
+
+
+    // set the cursor to (16,1):
+    lcd.setCursor(16, 1);
+    // set the display to automatically scroll:
+    lcd.autoscroll();
+
+
+}
+
+void instructions(){
+    lcd.setCursor(16, 1);
+    
+    for (int index = 0; index < (sizeof(button)/sizeof(*button)); index++)
+    {
+        lcd.print(button[index]);
+        delay(500);
+    }
+
+   
+    // set the display to automatically scroll:
+    lcd.autoscroll();
+    // turn off automatic scrolling
+
+}
+
+void meow(){
+  lcd.setCursor(0, 0);
+  int value = random (0, 5);
+
+  lcd.print(catNoises[value]);
+  for (int i = 0; i < 3; i++){
+    int value = random (0, 255);
+    rgbColours[i] = value;
+  }
+
+  lcd.setRGB(rgbColours[0], rgbColours[1], rgbColours[2]);
+   delay(5000);
+  lcd.noAutoscroll();
+  lcd.clear();
+}
+
+
+
+
+
+/*********************************************************************************************************
+  END FILE
+*********************************************************************************************************/
