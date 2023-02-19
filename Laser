@@ -1,10 +1,10 @@
 #include <Servo.h>
 #include <math.h>
-#define FORCE_SENSOR_PIN A4
+
+
 
 Servo myservo;  // create servo object to control a servo
 Servo myservo1;
-void move();
 
 int potpin = A0;  // analog pin used to connect the potentiometer
 int val;    // variable to read the value from the analog pin
@@ -12,42 +12,32 @@ int val;    // variable to read the value from the analog pin
 bool value = true;
 int rotation = 0;
 int previousRotation;
-int laser = 3;
+int laser = 4;
 int onOffSwitch;
-int forceReading = 0;
 
 
 
 void setup() {
   myservo.attach(12);  // attaches the servo on pin 9 to the servo object
   myservo1.attach(11);
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(4, OUTPUT);
   pinMode(A5, INPUT);
-  pinMode(2, OUTPUT);
+  pinMode(6, OUTPUT);
 }
 
-void loop() { 
+void loop() {
   onOffSwitch = analogRead(A5);
 
-  forceReading = analogRead(FORCE_SENSOR_PIN);
-
-  if (forceReading > 0){
-    //dog mode activated 
-  }else{
-    if(onOffSwitch == 0){
-      digitalWrite(4, HIGH);
-      move1();
-      move2(); 
-    } else{
-      digitalWrite(4, LOW);
-    }
+  if(onOffSwitch == 0){
+    laserOn();
+    move1();
+    move2(); 
+    digitalWrite(6, HIGH);
   }
-
- // Serial.print(onOffSwitch);
-
- 
-
+  else{
+    laserOff();
+  }
 }
 
 void move1(){
@@ -55,7 +45,7 @@ void move1(){
 val = analogRead(potpin);
   do{
 
-    rotation = random (0, 180);
+    rotation = random (40, 140);
 
   } while(abs(rotation - previousRotation) < 40);
 
@@ -69,9 +59,9 @@ void move2(){
 val = analogRead(potpin);
   do{
 
-    rotation = random (0, 180);
+    rotation = random (40, 140);
 
-  } while(abs(rotation - previousRotation) < 20);
+  } while(abs(rotation - previousRotation) < 5);
 
   myservo1.write(rotation);
   delay((val/2)+100);
@@ -79,6 +69,10 @@ val = analogRead(potpin);
   previousRotation = rotation;
 }
 
-void lasers(){
-  digitalWrite(laser, true);
+void laserOn(){
+  digitalWrite(laser, HIGH);
+}
+
+void laserOff(){
+  digitalWrite(laser, LOW);
 }
