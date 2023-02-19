@@ -1,0 +1,205 @@
+#include <Servo.h>
+#include <math.h>
+
+
+Servo dogservo;  // create servo object to control a servo
+void move();
+
+int potpin = A0;  // analog pin used to connect the potentiometer
+int val;    // variable to read the value from the analog pin
+
+bool value = true;
+int rotation = 0;
+int previousRotation;
+
+//music
+int buzzer1 = 8;
+
+const int time = 1000;
+
+const int C6 = 1046;
+const int Cs6 = 1108;
+const int E6 = 1328;
+const int F6 = 1396;
+const int Ds6 = 1244;
+const int D6 = 1174;
+
+const int D4 = D6/4;
+const int Ds4 = Ds4/4;
+const int F4 = F6/4;
+const int E4 = E6/4;
+const int Cs4 = Cs6/4;
+int counter = 0;
+
+
+
+void setup() {
+  dogservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  Serial.begin(115200);
+
+  //music
+  pinMode(buzzer1, OUTPUT);
+
+}
+
+void loop() {
+  if (val < 300){
+      while(counter != 10){
+      doggoLaunch();
+      counter++;
+      }
+      counter = 0;
+      
+      meow();
+  }
+
+}
+
+void doggoLaunch(){
+  val = analogRead(potpin);
+    if (value == true){
+      dogservo.write(50);
+      delay(150);
+      value = false;
+    }else{
+      dogservo.write(20);
+      delay(150);
+      value = true;
+    
+  }
+    
+}
+
+void meow(){
+  int meow = random(0, 11);
+
+  if(meow >= 0 && meow < 4){
+    meow1();
+  } else if(meow >= 4 && meow < 7){
+    meow2();
+  } else if(meow >= 7 && meow < 10){
+    meow4();
+  } else{
+    meow3();
+  }
+}
+
+void meow1(){
+  for(int i = Cs6; i < E6; i++){
+  tone(buzzer1, i);
+  delay(1);
+  }
+
+  for(int i = E6; i < F6; i++){
+    tone(buzzer1, i);
+    delay(4);
+  }
+
+  for(int i = F6; i > E6; i--){
+    tone(buzzer1, i);
+    delay(5);
+  }
+
+  for(int i = E6; i > Ds6; i--){
+    tone(buzzer1, i);
+    delay(3);
+  }
+
+  for(int i = Ds6; i > D6; i--){
+    tone(buzzer1, i);
+    delay(2);
+  }
+
+  noTone(buzzer1);
+
+delay(time);
+}
+
+void meow2(){
+  for(int i = Ds6; i < E6; i++){
+    tone(buzzer1, i);
+    delay(5);
+  }
+
+  for(int i = E6; i > Ds6; i--){
+    tone(buzzer1, i);
+    delay(4);
+  }
+
+  for(int i = Ds6; i > D6; i--){
+    tone(buzzer1, i);
+    delay(3);
+  }
+
+  for(int i = D6; i > Cs6; i --){
+    tone(buzzer1, i);
+    delay(1);
+  }
+
+  noTone(buzzer1);
+
+  delay(time);
+}
+
+void meow3(){
+  for(int i = Cs4; i < E4; i++){
+    tone(buzzer1, i);
+    delay(1);
+  }
+
+  for(int i = E4; i < F4; i++){
+    tone(buzzer1, i);
+    delay(4);
+  }
+
+  for(int i = F4; i > E4; i--){
+    tone(buzzer1, i);
+    delay(5);
+  }
+
+  for(int i = E4; i > Ds4; i--){
+    tone(buzzer1, i);
+    delay(3);
+  }
+
+  for(int i = Ds4; i > D4; i--){
+    tone(buzzer1, i);
+    delay(2);
+  }
+
+  noTone(buzzer1);
+
+  delay(time);
+}
+
+void meow4(){
+  for(int i = F6; i > E6; i--){
+    tone(buzzer1, i);
+    delay(5);
+  }
+
+  for(int i = E6; i > Ds6; i--){
+    tone(buzzer1, i);
+    delay(3);
+  }
+
+  for(int i = Ds6; i > D6; i--){
+    tone(buzzer1, i);
+    delay(2);
+  }
+
+  for(int i = D6; i > Cs6; i--){
+    tone(buzzer1, i);
+    delay(1);
+  }
+
+  for(int i = Cs6; i > C6; i--){
+    tone(buzzer1, i);
+    delay(1);
+  }
+
+  noTone(buzzer1);
+
+  delay(time);
+
+}
