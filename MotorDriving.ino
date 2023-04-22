@@ -13,7 +13,7 @@
 #define TRIG_IN A1
 #define TRIG_OUT 3
 #define ECHO_IN A2
-#define ECHO_OUT 4
+#define ECHO_OUT 4 
 
 //Motor A
 const int motorPin1 = 5;  // Pin 14 of L293
@@ -66,7 +66,6 @@ void loop()
   { 
     // If at a wall
     Serial.println("Wall");
-    
     digitalWrite(motorPin2, LOW);
     digitalWrite(motorPin3, HIGH);
     digitalWrite(motorPin1, HIGH);
